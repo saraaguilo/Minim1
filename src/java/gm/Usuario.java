@@ -3,25 +3,66 @@ package gm;
 import java.util.ArrayList;
 import java.util.List;
 
+import static gm.GameManagerImpl.logger;
+
 public class Usuario {
-    private String idUsuario;
-    private String nombreUsuario;
+    private String idUsuario; //1
+    private String nombreUsuario; //2
+    private String apellido; //3
     private String idPartidaActual;
-    private int numPuntos;
+    private int numPuntos; //4
     private List<Partida> partidasJugadasList;
 //    private List<Usuario> listaUsuarios;
     private boolean jugando;
+    private int Vida;
 
-    public Usuario(String idUsuario, String nombreUsuario, String idPartidaActual, int numPuntos){
+    public int getVida() {
+        return Vida;
+    }
+
+    public void setVida(int vida) {
+        Vida = vida;
+    }
+
+    private List<Product> listaProducts;
+
+    public List<Product> getListaProducts() {
+        return listaProducts;
+    }
+
+    public void setListaProducts(List<Product> listaProducts) {
+        this.listaProducts = listaProducts;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public Usuario(String idUsuario, String nombreUsuario, String apellido, int numPuntos){
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
-        this.idPartidaActual = idPartidaActual;
-        this.numPuntos = numPuntos;
+        this.apellido = apellido;
+        this.numPuntos = 25; //saldo
         partidasJugadasList = new ArrayList<>();
        // listaUsuarios = new ArrayList<>();
 
     }
-    public Usuario(){
+    public Usuario(String idUsuario, String nombreUsuario, String apellido){
+    }
+    public Product addProduct(String idUser, Product product){
+        if(idUser !=idUsuario){
+            logger.warn("El usuario no existe, lo añadimos");
+
+        }
+
+        // Añadir el producto a la lista de productos
+        listaProducts.add(product);
+        return null;
+
     }
 
     public String getNombreUsuario() {
@@ -50,10 +91,7 @@ public class Usuario {
         this.partidasJugadasList = partidasJugadasList;
     }
 
-   /* public List<Usuario> getListaUsuarios() {
-        return listaUsuarios;
-    }
-*/
+
     public String getIdUsuario() {
         return idUsuario;
     }
@@ -71,9 +109,7 @@ public class Usuario {
     }
 
 
-   /* public void setListaUsuarios(List<Usuario> listaUsuarios) {
-        this.listaUsuarios = listaUsuarios;
-    }*/
+
     public List<Partida> getPartidas() {
         List<Partida> partidasUsuario = new ArrayList<>();
         for (Partida partida : partidasJugadasList) {
@@ -94,5 +130,19 @@ public class Usuario {
     public void addPartida(Partida partida){
         this.partidasJugadasList.add(Integer.parseInt(partida.getId()), partida);
         this.jugando=true;
+    }
+    public void comprarProducto(Product producto,String idUsuario) {
+        if (idUsuario==idUsuario & numPuntos >= producto.getPrecio()) {
+            numPuntos = producto.getPrecio();
+            listaProducts.add(producto);
+        } else {
+            System.out.println("Error: Saldo insuficiente o usuario no existe.");
+        }
+    }
+    public void addUserToTeam(String idUsuario) {
+        Equipo equipo =new Equipo();
+        equipo.addJugador(idUsuario);
+
+        System.out.println("El usuario con id " + idUsuario + " fue agregado al equipo ");
     }
 }

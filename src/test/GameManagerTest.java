@@ -25,6 +25,7 @@ public class GameManagerTest {
 
         gm.crearJuego("1", "parchis", 1, 5);
         gm.crearJuego("2", "uno", 2, 3);
+
     }
     @After
     public void tearDown() {

@@ -85,57 +85,6 @@ public class GameService {
         return Response.status(404).build();
     }
 
-    @GET
-    @ApiOperation(value = "get actual points", notes = "Get the actual points of a player")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "All good", response = String.class, responseContainer="List"),
-            @ApiResponse(code = 404, message = "Player or game does not exists"),
-    })
-    @Path("/usuario/{idU}/getNumNivelActual")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getNumNivelActual(@PathParam("idU") String idU) {
-        int lvl = this.gm.getNumNivellActual(idU);
-        if (lvl>=0){
-            return Response.status(201).entity(lvl).build();
-        }
-        return Response.status(404).build();
-    }
-
-    @GET
-    @ApiOperation(value = "get actual points", notes = "Get the actual points of a player")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "All good", response = String.class, responseContainer="List"),
-            @ApiResponse(code = 404, message = "Player or game does not exists"),
-    })
-    @Path("/usuario/{idU}/getNumPuntos")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getNumPuntos(@PathParam("idU") String idU) {
-        int puntos = Integer.parseInt(this.gm.getNumPuntos(idU));
-        if (puntos >=0){
-            return Response.status(201).entity(puntos).build();
-        }
-        return Response.status(404).build();
-    }
-
-    @PUT
-    @ApiOperation(value = "Advance lvl", notes = "Make the user move 1 lvl")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Next lvl"),
-            @ApiResponse(code = 202, message = "Game ended"),
-            @ApiResponse(code = 404, message = "Player/game does not exist")
-    })
-    @Path("/usuario/pasarNivel/¨{idU}/{puntosAcumulados}/{fechaInicio}")
-    public Response pasarNivel(@PathParam("idU") String idU, @PathParam("puntosAcumulados") int puntosAcumulados, @PathParam("fechaInicio")String fechaInicio) {
-        Usuario u = this.gm.pasarNivel(idU,puntosAcumulados,fechaInicio);
-        if(u==null){
-            return Response.status(404).build();
-        }
-        if (u.getJugando()==true){
-            return Response.status(200).build();
-        }
-        return Response.status(202).build();
-    }
-
     @PUT
     @ApiOperation(value = "End a match", notes = "End a match")
     @ApiResponses(value = {
@@ -186,22 +135,57 @@ public class GameService {
         }
         return Response.status(404).build();
     }
-
-    @GET
-    @ApiOperation(value = "get activity information", notes = "Get the activity information of a player in a specific game")
+    @POST
+    @ApiOperation(value = "Añadir usuario en el sistema", notes = "")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "All good", response = String.class, responseContainer="List"),
+            @ApiResponse(code = 201, message = "All good", response = Usuario.class, responseContainer="List"),
+            @ApiResponse(code = 404, message = "Something went wrong")
+    })
+    @Path("/usuario/{idUsuario}/addUsuario")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addUsuario(@PathParam("idUsuario") String idUser) {
+        Usuario u = this.gm.finalizarPartida(idUser);
+        if (u!=null){
+            return Response.status(201).build();
+        }
+        return Response.status(404).build();
+
+    }
+    @POST
+    @ApiOperation(value = "Añadir producto en la tienda", notes = "")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "All good", response = Usuario.class, responseContainer="List"),
+            @ApiResponse(code = 404, message = "Something went wrong")
+    })
+    @Path("/usuario/{idProduct}/addProducto")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addProduct(@PathParam("idProduct") String idProduct) {
+        Product u = this.gm.addProduct(idProduct);
+        if (u!=null){
+            return Response.status(201).build();
+        }
+        return Response.status(404).build();
+
+    }
+    @GET
+    @ApiOperation(value = "Get el estado del juego", notes = "Estado")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "All good", response = Juego.class),
             @ApiResponse(code = 404, message = "Player or game does not exists"),
     })
-    @Path("/usuario/{nomUsuario}/juego/{juego}/infoActividad")
+    @Path("/usuario/{juego}/consultarEstadoJuego")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response infoActividad(@PathParam("nomUsuario") String nomUsuario, @PathParam("juego") String juego) {
-        Juego juegoObj = new Juego(juego);
-        List<String> infoActividad = this.gm.infoActividad(nomUsuario, juegoObj);
-        if (infoActividad == null) {
-            return Response.status(404).build();
+    public Response consultarEstadoJuego(@PathParam("juego") Juego juego) {
+        int estado = Integer.parseInt(this.gm.consultarEstadoJuego(juego));
+        if (estado >=0){
+            return Response.status(201).entity(estado).build();
         }
-        return Response.status(201).entity(infoActividad).build();
+        return Response.status(404).build();
     }
+
+
+
+
+
 
 }

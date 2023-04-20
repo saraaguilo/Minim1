@@ -7,6 +7,7 @@ public class GameManagerImpl implements GameManager {
     private List<Juego> juegosList;
     private HashMap<String, Usuario> usuarioHashMap;
     private List<Partida> partidasList;
+    private List<Product> listaProducts;
     public static GameManagerImpl instance = null;
     public static final Logger logger = Logger.getLogger(GameManagerImpl.class);
 
@@ -27,6 +28,7 @@ public class GameManagerImpl implements GameManager {
         GameManagerImpl.instance = instance;
     }
 
+
     //Creación de un juego
     public Juego crearJuego(String idJuego, String descJuego, int nivelActual, int puntosPorNivel) {
         Juego j = buscarJuego(idJuego);
@@ -39,12 +41,15 @@ public class GameManagerImpl implements GameManager {
         logger.warn("Ya existe un juego con el mismo id.");
         return null;
     }
+    public void addUser(String idUsuario, String nombreUsuario, String apellido) {
+        // Crear un nuevo usuario
+        Usuario user = new Usuario(idUsuario, nombreUsuario, apellido);
+        // Añadir el usuario a la tabla hash
 
-    /*@Override
-    public void addJuego(Juego juego) {
-        juegosList.add(Integer.parseInt(juego.getIdJuego()), juego);
-        logger.info("Añadiendo juego: " + juego.getIdJuego() + "descripcion: " + juego.getIdJuego() + "niveles: " + juego.getNumNivell());
-    }*/
+        usuarioHashMap.put(idUsuario, user);
+    }
+
+
 
     //Inicio de una partida de un juego por parte de un usuario
     @Override
@@ -72,20 +77,32 @@ public class GameManagerImpl implements GameManager {
         }
 
         Partida partida = new Partida(juego, usuario);
-        partida.setPuntosAcumulados(50);// comença amb 50 punts
-        partida.setNivelActual(1); // comença al nivell 1
+        //partida.setPuntosAcumulados(50);// comença amb 50 punts
+        //partida.setNivelActual(1); // comença al nivell 1
         partidasList.add(partida);
         usuario.addPartida(partida);
-        logger.info("Se ha añadido una partida para el usuario " + usuario.getIdUsuario() + " en el juego " + juego.getIdJuego());
+        usuario.addUserToTeam(idU);
+
+        logger.info("Se ha añadido una partida para el usuario " + usuario.getIdUsuario() + " en el juego " + juego.getIdJuego() + "con el estado" + juego.getEstado() );
+
         return juego;
         /*logger.info("Añadiendo partida para el usuario: "+ usuario.getIdUsuario());
         this.usuarioHashMap.get(idU).addPartida(partida);
         logger.info("La partida ha comenzado para el usuario " + idU + " en el juego " + idJ);
         return juego;*/
     }
+
     public int getListaPartidas(){
         return partidasList.size();
     }
+
+    @Override
+    public String consultarEstadoJuego(Juego juego) {
+        return null;
+    }
+
+    @Override
+
 
     public Juego buscarJuego(String identificadorJuego) {
         for (Juego juego : juegosList) {
@@ -97,20 +114,7 @@ public class GameManagerImpl implements GameManager {
     }
 
     public Usuario buscarUsuario(String identificadorUsuario) { //PREGUNTAR TONI
-        //En aquest codig hauriem de fer un:
-        //public String buscarUsuario(String identificadorUsuario) {
-        //pero a la funcio INICIOPARTIDA, la linia 53, Usuario usuario = buscarUsuario(idU);
-        //Hauria de ser String usuario = ... pero no ens serviria perq a la linia 66:
-        //Partida partida = new Partida(juego, usuario); el usuario que el treiem de partida no es un String
-        /*for (Map.Entry<String, Usuario> usuario : usuarioHashMap.entrySet()) {
-            String idUsuario = usuario.getKey();
-            if (usuario.getKey().equals(idUsuario)) {
-                return idUsuario;
-            }
-            return null;
-        }
-        return identificadorUsuario;*/
-        //fiquem això millor per a que no ens saltin errors:
+
         return usuarioHashMap.get(identificadorUsuario);
     }
 
@@ -130,13 +134,12 @@ public class GameManagerImpl implements GameManager {
         }
         return this.usuarioHashMap.get(idUser);
     }
-    public Usuario addUsuario(String idUser){
-        if(getUser(idUser)==null){
-            logger.warn("El usuario no existe, lo añadimos");
-            return getUser(idUser);
-        }
+
+    @Override
+    public Usuario addUsuario(String idUser) {
         return null;
     }
+
 
     @Override
     public int getNumNivellActual(String idU) {
@@ -154,6 +157,18 @@ public class GameManagerImpl implements GameManager {
         return partida.getNivelActual();
     }
 
+
+    @Override
+    public void comprarProducto(Product producto, String idUsuario, int numPuntos) {
+        if (idUsuario==idUsuario & numPuntos >= producto.getPrecio()) {
+            numPuntos = producto.getPrecio();
+            listaProducts.add(producto);
+        } else {
+            System.out.println("Error: Saldo insuficiente o usuario no existe.");
+        }
+
+    }
+
     @Override
     public String getNumPuntos(String idU) {
         Partida partida = buscarPartida(idU);
@@ -165,6 +180,10 @@ public class GameManagerImpl implements GameManager {
         //return idU;
         return Integer.toString(partida.getPuntosAcumulados());
     }
+
+
+
+
     //Si no es passesin parametres seria de la seguent manera:
     /*public int getNumPuntos() {
         int numPuntos = usuarioHashMap.size();
@@ -172,51 +191,7 @@ public class GameManagerImpl implements GameManager {
         return numPuntos;
     }*/
 
-    @Override
-    public Usuario pasarNivel(String idU, int puntosAcumulados, String fechaInicio) {
-        //avanzar al siguiente nivel de una partida en curso para un usuario dado
-        //busca una partida en curso para el usuario con el identificador 'idU'
-        Partida partida = buscarPartida(idU);
-        if (partida == null) {
-            logger.warn("No se encontró ninguna partida en curso");
-            return null;
-        }
 
-        //se recuperan algunos valores importantes para la partida, como el nivel actual,
-        // el número total de niveles para el juego y los puntos acumulados hasta el momento
-        int nivelActual = partida.getNivelActual();
-        int numNiveles = partida.getJuego().getNumNivell();
-        int puntosAnteriores = partida.getPuntosAcumulados();
-        int nuevosPuntos = puntosAnteriores + puntosAcumulados;
-
-        //se verifica si el usuario ha completado todos los niveles. Si es así, se agregan
-        // 100 puntos adicionales a la puntuación acumulada y se finaliza la partida
-        if (nivelActual == numNiveles) {
-            logger.info("El usuario ha completado todos los niveles y se han sumado 100 puntos adicionales");
-            partida.setPuntosAcumulados(nuevosPuntos + 100);
-            finalizarPartida(idU);
-        } else {
-
-            //Si el usuario no ha completado todos los niveles, se calcula la cantidad de puntos
-            // necesarios para avanzar al siguiente nivel
-            int puntosParaSiguienteNivel = partida.getJuego().getPuntosPorNivel() * nivelActual; //PODRIEM FER UN COMPARETO????
-            if (nuevosPuntos >= puntosParaSiguienteNivel) {
-
-                //Si la cantidad de puntos acumulados por el usuario es igual o mayor que la cantidad necesaria para avanzar, el nivel actual se incrementa en uno, se actualizan
-                // los puntos acumulados y se registra un mensaje informando al usuario que ha pasado al siguiente nivel
-                int nuevosNivel = nivelActual + 1;
-                partida.setNivelActual(nuevosNivel);
-                partida.setPuntosAcumulados(nuevosPuntos);
-                logger.info("El usuario ha pasado al nivel " + nuevosNivel);
-            } else {
-                //Si no se han acumulado suficientes puntos para avanzar, se actualizan los puntos acumulados y se informa
-                // al usuario cuántos puntos faltan para pasar al siguiente nivel.
-                partida.setPuntosAcumulados(nuevosPuntos);
-                logger.warn("El usuario ha acumulado " + nuevosPuntos + " puntos, " + (puntosParaSiguienteNivel - nuevosPuntos) + " puntos faltan para pasar al siguiente nivel.");
-            }
-        }
-        return null;
-    }
 
     @Override
     public Usuario finalizarPartida(String user) {
@@ -227,9 +202,10 @@ public class GameManagerImpl implements GameManager {
         }
         Usuario usuario = partida.getUsuario();
         Juego juego = partida.getJuego();
-        int puntuacionActual = partida.getPuntosAcumulados();
+        //int puntuacionActual = partida.getPuntosAcumulados();
         partidasList.remove(partida);
-        logger.info("Partida finalizada para el usuario " + user + "con la siguiente puntuacion: " + puntuacionActual);
+        logger.info("Partida finalizada para el usuario " + user);
+        juego.getEstado();
         return null;
     }
 
@@ -271,30 +247,6 @@ public class GameManagerImpl implements GameManager {
 
     //proporcionar información sobre la actividad de un usuario en un juego en particular, incluyendo detalles
     // como el nivel actual, los puntos acumulados y la fecha de inicio de las partidas
-    @Override
-    public List<String> infoActividad(String nomUsuario, Juego juego) {
-        List<String> infoActividad = new ArrayList<>();
-        //Se verifica si el usuario y el juego existen en el sistema, y si es así, se recorren todas
-        // las partidas del usuario en busca de las que corresponden al juego deseado
-        if (!usuarioHashMap.containsKey(nomUsuario)) {
-            logger.warn("El usuario no existe");
-            return null;
-        }
-        if (!juegosList.contains(juego)) {
-            logger.warn("El juego no existe");
-            return null;
-        }
-        //Para cada partida encontrada, se crea una cadena de información en el
-        // formato especificado y se agrega a la lista de información
-        List<Partida> partidas = usuarioHashMap.get(nomUsuario).getPartidas();
-        for (Partida partida : partidas) {
-            if (partida.getJuego().equals(juego)) {
-                String infoPartida = "{nivel: " + partida.getNivelActual() + ",puntos: " + partida.getPuntosAcumulados() + ",fecha: " + partida.getFechaInicio()+ "}";
-                infoActividad.add(infoPartida);
-            }
-        }
-        return infoActividad;
-    }
 
     public void clear(){
         partidasList.clear();
@@ -312,4 +264,23 @@ public class GameManagerImpl implements GameManager {
         logger.info(ret + " juegos en la lista");
         return ret;
     }
+    @Override
+    public Usuario addUserToTeam(String idUsuario, int teamId) {
+        Equipo equipo =new Equipo();
+        equipo.addJugador(idUsuario);
+
+        System.out.println("El usuario con id " + idUsuario + " fue agregado al equipo " + teamId + ".");
+        return null;
+    }
+    public Product addProduct(String idProduct) {
+        Product product= new Product();
+        listaProducts.add(product);
+
+        System.out.println("El product con id " + idProduct + " fue agregado");
+    return null;
+    }
+
+
+
+
 }

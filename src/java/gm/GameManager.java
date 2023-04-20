@@ -7,13 +7,17 @@ public interface GameManager {
     public Juego crearJuego(String idJuego, String descJuego, int nivelActual, int puntosPorNivel);
     public Juego inicioPartida(String idJ, String idU);
     public int getNumNivellActual(String idU);
-    public String getNumPuntos(String idU);
-    public Usuario pasarNivel(String idU, int puntosAcumulados, String fechaInicio);
+
+    public void comprarProducto(Product producto, String idUsuario, int numPuntos);
+
+  public String getNumPuntos(String idU);
+
     public Usuario finalizarPartida(String user);
     // Consulta de usuarios que han participado en un juego ordenado por puntuación (descendente)
     public Usuario consultarUsuariosPorJuego(Juego juego);
     public List<Partida> partidaUsuario(String nomUsuario);
-    public List<String> infoActividad(String nomUsuario, Juego juego);
+
+    public Usuario addUserToTeam(String idUsuario, int teamId);
 
     /////////////////////////////////////////////////////////////////
 
@@ -25,5 +29,12 @@ public interface GameManager {
     public int sizeUsuarios();
     public int sizeJuegos();
     public int getListaPartidas();
-    public void clear();
+    public String consultarEstadoJuego(Juego juego);
+
+  //proporcionar información sobre la actividad de un usuario en un juego en particular, incluyendo detalles
+  // como el nivel actual, los puntos acumulados y la fecha de inicio de las partidas
+
+
+  public void clear();
+    public Product addProduct(String idProduct);
 }

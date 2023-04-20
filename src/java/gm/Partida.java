@@ -44,6 +44,7 @@ public class Partida {
         this.usuario = usuario;
     }
 
+
     public int getNivelActual() {
         return nivelActual;
     }
