@@ -5,16 +5,16 @@ import java.util.List;
 
 public class Product {
 
-    private String idProducto; //1
+    private int idProducto; //1
     private String descripcion; //2
-    private int precio; //3
+    private int precio; //33
 
 
-    public String getIdProducto() {
+    public int getIdProducto() {
         return idProducto;
     }
 
-    public void setIdProducto(String idProducto) {
+    public void setIdProducto(int idProducto) {
         this.idProducto = idProducto;
     }
 
@@ -33,7 +33,7 @@ public class Product {
     public void setPrecio(int precio) {
         this.precio = precio;
     }
-    public Product(String idProducto, String descripcion, int precio){
+    public Product(int idProducto, String descripcion, int precio){
         this.idProducto = idProducto;
         this.descripcion = descripcion;
         this.precio = precio;

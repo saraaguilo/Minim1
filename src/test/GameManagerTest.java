@@ -20,11 +20,11 @@ public class GameManagerTest {
         //Inicialización de variables antes de cada Test
         gm = GameManagerImpl.getInstance();
 
-        gm.addUsuario(String.valueOf(new Usuario("1", "Sara", "1", 15)));
-        gm.addUsuario(String.valueOf(new Usuario("2", "Anna", "2", 10)));
+        gm.añadirUsuario("1", "Sara", "Aguilo");
+        gm.añadirUsuario("2", "Anna", "Sabater");
 
-        gm.crearJuego("1", "parchis", 1, 5);
-        gm.crearJuego("2", "uno", 2, 3);
+        gm.crearJuego(3, 6);
+        gm.crearJuego(5,8);
 
     }
     @After
@@ -40,7 +40,7 @@ public class GameManagerTest {
         Assert.assertEquals(2,this.gm.sizeJuegos());
 
         logger.info("Agregamos un juego nuevo");
-        this.gm.crearJuego("3", "ajedrez", 8, 5);
+        this.gm.crearJuego(3,6);
         Assert.assertEquals(3,this.gm.sizeJuegos());
     }
     @Test
@@ -50,61 +50,31 @@ public class GameManagerTest {
         Assert.assertEquals(2,this.gm.sizeUsuarios());
 
         logger.info("Agregamos un usuario nuevo");
-        this.gm.addUsuario(String.valueOf(new Usuario("3", "Toni", null, 22)));
+        this.gm.añadirUsuario("3", "Toni", "Pons");
         Assert.assertEquals(3,this.gm.sizeUsuarios());
     }
-
     @Test
-    public void testInicioPartida(){
-        // Crear un juego nuevo
-        Juego juego3 = new Juego("3", "ajedrez", 1, 20);
-        StringBuilder sb = new StringBuilder();
-        sb.append(juego3).append(",");
-        String cadenaJ3 = sb.toString();
+    public void testAddProduct(){
+        logger.info("----- Empezamos con el test AddProduct ------");
+        logger.info("Condiciones iniciales: ");
+        Assert.assertEquals(2,this.gm.sizeProductos());
 
-        // Crear un usuario nuevo
-        Usuario usuario3 = new Usuario("3", "Toni", null, 0);
-        StringBuilder sp = new StringBuilder();
-        sp.append(juego3).append(",");
-        String cadenaU3 = sp.toString();
-
-        // Crear una partida para el usuario en el juego
-        gm.inicioPartida(cadenaJ3, cadenaU3);
-        // Verificar que la partida ha sido creada
-        Assert.assertEquals(1, gm.getListaPartidas());
-
-        // Crear otra partida para el mismo usuario en el mismo juego
-        gm.inicioPartida(cadenaJ3, cadenaU3);
-        // Verificar que no se ha creado otra partida
-        Assert.assertEquals(1, gm.getListaPartidas());
-
-        // Crear una partida para un usuario inexistente
-        gm.inicioPartida(cadenaU3, "4");
-        // Verificar que no se ha creado otra partida
-        Assert.assertEquals(1, gm.getListaPartidas());
-
-        // Crear una partida para un juego inexistente
-        gm.inicioPartida("4", cadenaJ3);
-        // Verificar que no se ha creado otra partida
-        Assert.assertEquals(1, gm.getListaPartidas());
+        logger.info("Agregamos un producto nuevo");
+        this.gm.añadirProducto(3, "Pan", 5);
+        Assert.assertEquals(3,this.gm.sizeProductos());
     }
 
-    @Test
-    public void testFinalizarPartida() {
-        // Crear un juego nuevo
-        Juego juego3 = new Juego("3", "ajedrez", 1, 20);
-        StringBuilder sb = new StringBuilder();
-        sb.append(juego3).append(",");
-        String cadenaJ3 = sb.toString();
 
-        // Crear un usuario nuevo
-        Usuario usuario3 = new Usuario("3", "Toni", null, 0);
-        StringBuilder sp = new StringBuilder();
-        sp.append(juego3).append(",");
-        String cadenaU3 = sp.toString();
+    @Test
+    public int testFinalizarJuego() {
+        // Crear un juego nuevo
+        Juego juego3 = new Juego(6,8,1);
+        juego3.getIdJuego();
+
 
         // Crear una partida para el usuario en el juego
-        gm.inicioPartida(cadenaJ3, cadenaU3);
+        int i=gm.finalizarJuego(juego3.getIdJuego());
+
+        return i;
     }
 }
-

@@ -8,7 +8,7 @@ public class Partida {
     private int puntosAcumulados;
     private String fechaInicio;
 
-    public Partida(String id, Juego juego, Usuario usuario, int nivelActual, int puntosAcumulados, String fechaInicio) {
+    public Partida(String id, String fechaInicio) {
         this.id = id;
         this.juego = juego;
         this.usuario = usuario;

@@ -9,8 +9,9 @@ public class Usuario {
     private String idUsuario; //1
     private String nombreUsuario; //2
     private String apellido; //3
-    private String idPartidaActual;
-    private int numPuntos; //4
+    //private String idPartidaActual;
+    private int numPuntos; //4 coins
+    private Equipo equipo;//5
     private List<Partida> partidasJugadasList;
 //    private List<Usuario> listaUsuarios;
     private boolean jugando;
@@ -34,6 +35,16 @@ public class Usuario {
         this.listaProducts = listaProducts;
     }
 
+
+
+    public Equipo getEquipo() {
+        return equipo;
+    }
+
+    public void setEquipo(Equipo equipo) {
+        this.equipo = equipo;
+    }
+
     public String getApellido() {
         return apellido;
     }
@@ -51,8 +62,9 @@ public class Usuario {
        // listaUsuarios = new ArrayList<>();
 
     }
-    public Usuario(String idUsuario, String nombreUsuario, String apellido){
+    public Usuario(String idUsuario){
     }
+
     public Product addProduct(String idUser, Product product){
         if(idUser !=idUsuario){
             logger.warn("El usuario no existe, lo añadimos");
@@ -65,6 +77,8 @@ public class Usuario {
 
     }
 
+
+
     public String getNombreUsuario() {
         return nombreUsuario;
     }
@@ -75,21 +89,8 @@ public class Usuario {
 
 
 
-    public String getIdPartidaActual() {
-        return idPartidaActual;
-    }
 
-    public void setIdPartidaActual(String idPartidaActual) {
-        this.idPartidaActual = idPartidaActual;
-    }
 
-    public List<Partida> getPartidasJugadasList() {
-        return partidasJugadasList;
-    }
-
-    public void setPartidasJugadasList(List<Partida> partidasJugadasList) {
-        this.partidasJugadasList = partidasJugadasList;
-    }
 
 
     public String getIdUsuario() {
@@ -100,11 +101,11 @@ public class Usuario {
         this.idUsuario = idUsuario;
     }
 
-    public int getNumPuntos() {
+    public int getNumPuntos() {  //DSAoins
         return numPuntos;
     }
 
-    public void setNumPuntos(int numPuntos) {
+    public void setNumPuntos(int numPuntos) {   //DSAcoins
         this.numPuntos = numPuntos;
     }
 
@@ -131,14 +132,7 @@ public class Usuario {
         this.partidasJugadasList.add(Integer.parseInt(partida.getId()), partida);
         this.jugando=true;
     }
-    public void comprarProducto(Product producto,String idUsuario) {
-        if (idUsuario==idUsuario & numPuntos >= producto.getPrecio()) {
-            numPuntos = producto.getPrecio();
-            listaProducts.add(producto);
-        } else {
-            System.out.println("Error: Saldo insuficiente o usuario no existe.");
-        }
-    }
+
     public void addUserToTeam(String idUsuario) {
         Equipo equipo =new Equipo();
         equipo.addJugador(idUsuario);

@@ -5,14 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6acb6aed-31bc-4e59-b2bb-0916407d62ec" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/java/gm/Product.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Minim1_2022QT.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/gm/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/gm/GameManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/gm/GameManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/gm/GameManagerImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/gm/Juego.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/gm/Juego.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/gm/Partida.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/gm/Partida.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/java/gm/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/gm/Product.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/gm/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/gm/Usuario.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/java/gm/services/GameService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/gm/services/GameService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/GameManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/GameManagerTest.java" afterDir="false" />
@@ -98,11 +97,23 @@
       <option name="presentableId" value="Default" />
       <updated>1681920044435</updated>
       <workItem from="1681920045837" duration="8593000" />
-      <workItem from="1681986188484" duration="11934000" />
+      <workItem from="1681986188484" duration="13426000" />
+      <workItem from="1682147494379" duration="17433000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

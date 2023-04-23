@@ -1,25 +1,28 @@
 package gm;
 
-import java.util.List;
-
 public class Juego{
+    public static final int NO_INICIADO=0;
+    public static final int EN_PREPARACION=1;
+    public static final int EN_FUNCIONAMIENTO=2;
+    public static final int FINALIZADO=3;
+
+
     private String idJuego;
-    private String descJuego;
+    //private String descJuego;
     private int numNivell;
-    private int puntosPorNivel;
-    private List<Usuario> listaUsuario;
-    private List<Equipo> listaequipos;
-    private enum Estado {
-        NO_INICIADO,
-        INICIADO_EN_PREPARACION,
-        INICIADO_EN_FUNCIONAMIENTO,
-        FINALIZADO
+    //private int puntosPorNivel;
+
+    private int estado;
+    private int numEquipos;
+    private int dimension;
+
+
+    public int getEstado() {
+        return estado;
     }
 
-    private Estado estado;
-
-    public Estado getEstado() {
-        return estado;
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
 
     public String consultarEstadoJuego(Juego juego) {
@@ -29,9 +32,9 @@ public class Juego{
             switch (juego.getEstado()) {
                 case NO_INICIADO:
                     return "El juego aún no ha sido iniciado";
-                case INICIADO_EN_PREPARACION:
+                case EN_PREPARACION:
                     return "El juego está en preparación";
-                case INICIADO_EN_FUNCIONAMIENTO:
+                case EN_FUNCIONAMIENTO:
                     return "El juego está en funcionamiento";
                 case FINALIZADO:
                     return "El juego ha finalizado";
@@ -46,23 +49,13 @@ public class Juego{
         this.estado = estado;
     }
 
-    public Juego (String idJuego, String descJuego, int numNivell, int puntosPorNivel){
+    public Juego (int numEquipos, int dimension, int estado){
         this.idJuego = idJuego;
-        this.descJuego = descJuego;
-        this.numNivell = numNivell;
-        this.puntosPorNivel = puntosPorNivel;
+        this.numEquipos = numEquipos;
+        this.dimension = dimension;
+        this.estado = NO_INICIADO;
     }
-    public Juego (String juego){
-    }
-
-    public Integer getPuntosPorNivel() {
-        return puntosPorNivel;
-    }
-
-
-
-    public void setPuntosPorNivel(Integer puntosPorNivel) {
-        this.puntosPorNivel = puntosPorNivel;
+    public Juego (String idjuego){
     }
 
 
@@ -74,20 +67,27 @@ public class Juego{
         this.idJuego = idJuego;
     }
 
-    public String getDescJuego() {
-        return descJuego;
-    }
-
-    public void setDescJuego(String descJuego) {
-        this.descJuego = descJuego;
-    }
-
-    public Integer getNumNivell() {
+    public int getNumNivell() {
         return numNivell;
     }
 
-    public void setNumNivell(Integer numNivell) {
+    public void setNumNivell(int numNivell) {
         this.numNivell = numNivell;
     }
 
+    public int getNumEquipos() {
+        return numEquipos;
+    }
+
+    public void setNumEquipos(int numEquipos) {
+        this.numEquipos = numEquipos;
+    }
+
+    public int getDimension() {
+        return dimension;
+    }
+
+    public void setDimension(int dimension) {
+        this.dimension = dimension;
+    }
 }
